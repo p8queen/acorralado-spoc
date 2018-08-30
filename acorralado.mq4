@@ -1,5 +1,6 @@
 //+------------------------------------------------------------------+
-//|                                            acorralado-in-out.mq4 |
+//|                                              acorralado-spoc.mq4 |
+//|                                 SPOC Set Pending Order and Close |
 //|                                  Copyright 2018, Gustavo Carmona |
 //|                                          https://www.awtt.com.ar |
 //+------------------------------------------------------------------+
@@ -14,7 +15,7 @@
 #include "acorralado.mqh"
 
 //          (name, magicNumber)
-Acorralado bot("bot",1500), tob("tob",1600);
+Acorralado bot("bot",1500);
 
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
@@ -23,7 +24,7 @@ int OnInit()
   {
   Comment(Point);
  
-  
+  bot.loadTicketArray();
      
 
   return(INIT_SUCCEEDED);
@@ -40,7 +41,7 @@ void OnDeinit(const int reason)
 //| Expert tick function                                             |
 //+------------------------------------------------------------------+
 void OnTick(){
-   bot.getTicketLastOpenOrder();
+   //bot.getTicketLastOpenOrder();
       
 }      
       
