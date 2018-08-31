@@ -16,7 +16,7 @@
 
 //          (name, magicNumber)
 Acorralado bot("bot",1500);
-
+int iLastTicket;
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
 //+------------------------------------------------------------------+
@@ -41,7 +41,9 @@ void OnDeinit(const int reason)
 //| Expert tick function                                             |
 //+------------------------------------------------------------------+
 void OnTick(){
-   bot.getTicketLastOpenOrder();
+   iLastTicket = bot.getTicketLastOpenOrder();
+   Comment("Last Ticket, ", iLastTicket);
+   
       
 }      
       

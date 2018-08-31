@@ -86,8 +86,12 @@ void Acorralado::loadTicketArray(void){
    }
 
 int Acorralado::getTicketLastOpenOrder(){
+   //get Last Ticket if not exist Pending Orders
+   // otherwise return -1
    int ticket;
-   ticket = 0;
+   double maxLots;
+   maxLots = 0;
+   ticket = -1; 
    cad = "";
    p=0;
    while(lsNumOrder[p]>-1){
@@ -97,7 +101,19 @@ int Acorralado::getTicketLastOpenOrder(){
        
          cad += ", "+IntegerToString(OrderTicket())+", ";
          cad += "lots: "+DoubleToString(OrderLots())+", ";
+         cad += TimeToStr(OrderOpenTime())+", ";
          cad += ",Order Type: "+IntegerToString(OrderType())+"\n ";
+         if(OrderLots()>maxLots){
+            ticket = lsNumOrder[p];
+            maxLots = OrderLots();
+            cad += "last ticket: "+IntegerToString(lsNumOrder[p])+"\n";
+            }
+         if(OrderType()>1){
+            ticket = -1;
+            cad += "last ticket: "+IntegerToString(lsNumOrder[p])+"\n";
+            return ticket;
+            
+            } 
        
    p++;
    }
