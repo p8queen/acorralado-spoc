@@ -16,17 +16,17 @@
 
 //          (name, magicNumber)
 Acorralado bot("bot",1500);
-int iLastTicket;
+Acorralado tob("tob",1600);
+int botLastTicket, tobLastTicket;
+string out;
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
 //+------------------------------------------------------------------+
 int OnInit()
   {
   Comment(Point);
- 
-  bot.loadTicketArray();
-     
-
+  Sleep(750);
+  
   return(INIT_SUCCEEDED);
   }
 //+------------------------------------------------------------------+
@@ -41,10 +41,25 @@ void OnDeinit(const int reason)
 //| Expert tick function                                             |
 //+------------------------------------------------------------------+
 void OnTick(){
-   iLastTicket = bot.getTicketLastOpenOrder();
-   Comment("Last Ticket, ", iLastTicket);
+   bot.loadTicketArray();
+   tob.loadTicketArray();
    
+   out = "--------\n";
+   botLastTicket = bot.getTicketLastOpenOrder();
+   out = "bot Last Ticket: "+IntegerToString(botLastTicket)+"\n";
+   
+   tobLastTicket = tob.getTicketLastOpenOrder();
+   out += "tob Last Ticket: "+IntegerToString(tobLastTicket)+"\n";
+   Comment(out);
+   Sleep(5000);
+   
+   if(botLastTicket>-1)
+      bot.setPendingOrder(botLastTicket);
       
+   if(tobLastTicket>-1)
+      tob.setPendingOrder(tobLastTicket);
+   
+   Sleep(5000);
 }      
       
     

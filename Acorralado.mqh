@@ -24,7 +24,7 @@ private:
    bool botIsOpen;
    int firstOrderOP;
    int p, magicNumber;
-   int lsNumOrder[10];
+   int lsNumOrder[20];
    
    
 public:
@@ -32,6 +32,7 @@ public:
                     ~Acorralado();
    int               getTicketLastOpenOrder();
    void              loadTicketArray(void);
+   void              setPendingOrder(int ticket);
   };
 //+------------------------------------------------------------------+
 //|                                                                  |
@@ -42,6 +43,8 @@ Acorralado::Acorralado(string robotName, int robotMagicNumber)
    magicNumber = robotMagicNumber;
    ArrayInitialize(lsNumOrder, -1);
    cad = "";
+   deltaTips = 500*Point;
+   deltaStTp = 1*Point;
   }
 //+------------------------------------------------------------------+
 //|                                                                  |
@@ -61,7 +64,7 @@ void Acorralado::loadTicketArray(void){
    for(i=0;i<itotal;i++){
       OrderSelect(i, SELECT_BY_POS, MODE_TRADES);
        // check for opened position, symbol & MagicNumber
-       if (OrderSymbol()== Symbol()){
+       if (OrderSymbol()== Symbol() && OrderMagicNumber()==magicNumber){
          lsNumOrder[p] = OrderTicket();
          Comment(lsNumOrder[p]);
          Sleep(500);
@@ -69,8 +72,8 @@ void Acorralado::loadTicketArray(void){
          }
       }
       
-      Comment("lega");
-   Sleep(1000);
+   Comment("Array loaded");
+   Sleep(500);
    //check array
    p=0;
    cad += "TicketArray: ";
@@ -117,7 +120,35 @@ int Acorralado::getTicketLastOpenOrder(){
        
    p++;
    }
-   Comment(cad);
-   Sleep(1000);
+  // Comment(cad);
+  // Sleep(1000);
    return ticket; 
+   }
+ 
+ void Acorralado::setPendingOrder(int ticket){
+   double price, st, tp;
+      
+   
+   OrderSelect(ticket,SELECT_BY_TICKET);
+   if(OrderLots()==0.01)
+      lots = 0.03;
+   else
+      lots = OrderLots()*2;
+   
+   if(OrderType()==OP_BUY){
+      //set sellStop
+      price = OrderOpenPrice()-deltaTips;
+      st = price+2*deltaTips;
+      tp = price-deltaTips + deltaStTp;
+      OrderSend(Symbol(),OP_SELLSTOP,lots,price,10,st,tp,name,magicNumber);
+      }
+      
+      if(OrderType()==OP_SELL){
+      //set buyStop
+      price = OrderOpenPrice()+deltaTips;
+      st = price-2*deltaTips;
+      tp = price+deltaTips - deltaStTp;
+      OrderSend(Symbol(),OP_BUYSTOP,lots,price,10,st,tp,name,magicNumber);
+      }
+   
    }
