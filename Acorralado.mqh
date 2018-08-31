@@ -85,26 +85,23 @@ void Acorralado::loadTicketArray(void){
 
    }
 
-//int Acorralado::getTicketLastOpenOrder(){
-//   
-//   int i, itotal, retval;
-//   
-//
-//   retval = 0;
-//   itotal=OrdersTotal();
-//   cad = "Orders: "+IntegerToString(itotal);
-//   
-//   
-//   for(i=0;i<itotal;i++) // for loop
-//     {
-//      OrderSelect(i, SELECT_BY_POS, MODE_TRADES);
-//       // check for opened position, symbol & MagicNumber
-//       if (OrderSymbol()== Symbol()){
-//         cad += ", "+IntegerToString(OrderTicket())+", ";
-//         cad += "lots: "+DoubleToString(OrderLots())+", ";
-//         cad += ",Order Type: "+IntegerToString(OrderType())+", ";
-//         }
-//   }
-//   Comment(cad);
-//   return retval; 
-//   }
+int Acorralado::getTicketLastOpenOrder(){
+   int ticket;
+   ticket = 0;
+   cad = "";
+   p=0;
+   while(lsNumOrder[p]>-1){
+   
+      OrderSelect(lsNumOrder[p], SELECT_BY_TICKET);
+       // check for opened position, symbol & MagicNumber
+       
+         cad += ", "+IntegerToString(OrderTicket())+", ";
+         cad += "lots: "+DoubleToString(OrderLots())+", ";
+         cad += ",Order Type: "+IntegerToString(OrderType())+"\n ";
+       
+   p++;
+   }
+   Comment(cad);
+   Sleep(1000);
+   return ticket; 
+   }

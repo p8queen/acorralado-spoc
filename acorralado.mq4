@@ -41,7 +41,7 @@ void OnDeinit(const int reason)
 //| Expert tick function                                             |
 //+------------------------------------------------------------------+
 void OnTick(){
-   //bot.getTicketLastOpenOrder();
+   bot.getTicketLastOpenOrder();
       
 }      
       
