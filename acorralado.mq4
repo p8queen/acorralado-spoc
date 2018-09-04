@@ -51,7 +51,7 @@ void OnTick(){
    tobLastTicket = tob.getTicketLastOpenOrder();
    out += "tob Last Ticket: "+IntegerToString(tobLastTicket)+"\n";
    Comment(out);
-   Sleep(5000);
+   Sleep(1000);
    
    if(botLastTicket>-1)
       bot.setPendingOrder(botLastTicket);
